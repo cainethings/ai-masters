@@ -23,13 +23,10 @@
 - Sources include databases, logs, sensors, social media, cloud, APIs, etc.
 - Can be **batch-based** or **real-time (streaming)**.
 
----
-
 #### 🔹 **Types of Data Ingestion**
 - **Batch Ingestion** – Large volumes of data moved at intervals (e.g., daily, hourly).
 - **Real-Time Ingestion** – Data is ingested continuously as it is generated.
 
----
 
 #### 🔹 **Popular Data Ingestion Tools in Big Data**
 
@@ -54,8 +51,6 @@
 - Web-based interface for building **data flow pipelines**.
 - Supports real-time data routing, transformation, and system mediation.
 
----
-
 #### 🔹 **How Data Is Ingested into Big Data Models**
 
 - **Step 1: Connect to Data Sources**
@@ -69,8 +64,6 @@
 
 - **Step 4: Load into Models**
   - Cleaned and processed data is used to **train machine learning models** or for **data analysis**.
-
----
 
 #### 🔹 **Example Use Case (Elaboration)**
 
