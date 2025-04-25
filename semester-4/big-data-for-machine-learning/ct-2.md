@@ -7,14 +7,14 @@
 - Sqoop works best for **structured, batch-based data**.
 - Flume is ideal for **event-driven, unstructured or semi-structured data**.
 - Sqoop connects to **databases**; Flume connects to **data sources like logs, Twitter, etc.**
-
+---
 ### Q2. How can we control the number of mappers using sqoop?
 - Use the option `--num-mappers` or shorthand `-m` in the Sqoop command.   
 - Default is **4 mappers**.   
 - To control parallelism or reduce load, set it manually (e.g., `--num-mappers 1`).  
 - Useful when importing small tables or when splitting is not feasible.
 - **Example:** ```sqoop import --connect jdbc:mysql://localhost/db --table employees --num-mappers 2```
-
+---
 ## 16 Marks
 ### Q1. Explain in detail about data ingestion tools available in big data and how the data’s are ingested into the model.
 
@@ -73,7 +73,7 @@
 - Data is processed using **Spark SQL**.
 - Final dataset is used to build a **recommendation model**.
 
-
+---
 ### Q2. Elaborate in detail about the steps for extracting twitter data using flume.
 
 #### 🔹 **What is Flume?**
@@ -209,7 +209,7 @@ sqoop export \
   }
   ```
 - It's schema-less and supports nested documents.
-
+---
 
 ### **Q2. How to add a single data in MongoDB?**
 - Use the `insertOne()` method.
@@ -221,28 +221,28 @@ sqoop export \
   ```python
   db.users.insert_one({"name": "Caine", "age": 30})
   ```
-
+---
 
 ### **Q3. Define RDD in Spark**
 - RDD = **Resilient Distributed Dataset**
 - It is the **core abstraction** in Spark representing an immutable, distributed collection of objects.
 - Supports **parallel operations**, **fault tolerance**, and **lazy evaluation**.
 
-
+---
 ### **Q4. What are the functions of Spark SQL?**
 - Allows querying structured data using SQL and DataFrame API.
 - Functions:
   - `select()`, `filter()`, `groupBy()`, `join()`, `agg()`
   - Executes **SQL queries** using `spark.sql()`
 - Supports integration with Hive and optimizations via Catalyst engine.
-
+---
 
 ### **Q5. What is meant by lazy evaluation in Spark?**
 - Transformations (like `map`, `filter`) are **not executed immediately**.
 - Spark **waits until an action** (like `collect`, `count`) is called.
 - Helps **optimize execution plans** and reduce unnecessary computations.
 
-
+---
 ### **Q6. How do you set deploy mode in PySpark?**
 - Use `--deploy-mode` option in the `spark-submit` command.
 - Example:
@@ -251,7 +251,7 @@ sqoop export \
   spark-submit --deploy-mode cluster app.py
   ```
 - `client` runs driver on local machine; `cluster` runs driver on cluster node.
-
+---
 ## 16 Marks
 ### Q1. Explain in detail about the Ecosystem of MongoDB with appropriate diagrams and explore collections and documents in MongoDB.
 
@@ -342,7 +342,7 @@ The **MongoDB ecosystem diagram** can look like this:
     | (CLI Interaction) |      | (Cloud DB Service)|
     +-------------------+      +-------------------+
 ```
- 
+---
 ### Q2. What is meant by NoSQL? Explain in detail about CRUD operations in MongoDB.
 #### **What is meant by NoSQL?**
 
@@ -387,7 +387,7 @@ CRUD stands for **Create**, **Read**, **Update**, and **Delete**. These operatio
       { "name": "Zara", "age": 25, "skills": ["Design"] }
     ]);
     ```
-
+---
 ##### **2. Read Operation** (`find()`, `findOne()`)
 - **Purpose**: Retrieve documents from a collection.
   
@@ -455,7 +455,7 @@ CRUD stands for **Create**, **Read**, **Update**, and **Delete**. These operatio
 - MongoDB’s operations support **filters** and **operators** to specify conditions, such as `$gt`, `$lt`, `$eq`, `$ne`, etc.
 - **Indexes** can be created for optimizing search performance during CRUD operations.
 - **Atomicity**: Operations like `updateOne()` and `insertOne()` are atomic, meaning they are guaranteed to complete successfully, or not at all.
-
+---
 ### Q3. Elaborate in detail about spark architecture with appropriate diagrams?
 
 Apache Spark is a unified analytics engine for big data processing, with built-in modules for streaming, SQL, machine learning, and graph processing. Its architecture is designed to provide speed, ease of use, and the ability to handle a variety of data sources and formats. Below is a detailed explanation of the **Spark architecture** with its components and flow.
@@ -571,9 +571,315 @@ Below is a diagram that illustrates the key components of the **Spark architectu
 With this architecture, Spark provides **fault tolerance**, **high availability**, and **parallel data processing**, making it suitable for big data workloads.
 
 
-
+---
 ### Q4. Explain in detail about the steps for building spark ML pipeline.  
-### Q5. Explain in detail about Hyper parameter training and AutoML in pyspark.
 
+#### **Steps for Building a Spark ML Pipeline:**
+
+Building a **Spark ML pipeline** involves several essential steps to process and model your data. A machine learning pipeline is a sequence of data processing stages and machine learning algorithms designed to streamline the workflow, ensure reproducibility, and improve efficiency. Below is a detailed explanation of each step involved in building a **Spark ML pipeline**.
+
+
+#### **Steps for Building a Spark ML Pipeline:**
+
+1. **Step 1: Import Required Libraries**
+   - Before starting the pipeline, you need to import essential libraries, such as those for data manipulation, machine learning algorithms, and evaluation metrics. Some core libraries include:
+     ```python
+     from pyspark.sql import SparkSession
+     from pyspark.ml import Pipeline
+     from pyspark.ml.feature import VectorAssembler, StringIndexer, OneHotEncoder
+     from pyspark.ml.classification import LogisticRegression
+     from pyspark.ml.evaluation import BinaryClassificationEvaluator
+     from pyspark.sql.functions import col
+     ```
+
+2. **Step 2: Initialize SparkSession**
+   - Create a `SparkSession`, which is the entry point to use Spark functionality.
+     ```python
+     spark = SparkSession.builder.appName("SparkMLPipeline").getOrCreate()
+     ```
+
+3. **Step 3: Load and Preprocess the Data**
+   - Load your data into a **DataFrame**. The dataset can be in formats like CSV, Parquet, JSON, etc.
+     ```python
+     data = spark.read.csv("data.csv", header=True, inferSchema=True)
+     ```
+   - Clean and preprocess the data. You can perform tasks like handling missing values, data transformation, type casting, etc.
+     ```python
+     data = data.dropna()  # Dropping rows with null values
+     ```
+
+4. **Step 4: Feature Engineering and Transformation**
+   - **StringIndexer**: Convert categorical labels into numerical labels.
+     ```python
+     indexer = StringIndexer(inputCol="category", outputCol="categoryIndex")
+     ```
+   - **OneHotEncoder**: Convert indexed labels into one-hot encoded vectors.
+     ```python
+     encoder = OneHotEncoder(inputCol="categoryIndex", outputCol="categoryVec")
+     ```
+   - **VectorAssembler**: Combine all feature columns into a single feature vector for model training.
+     ```python
+     assembler = VectorAssembler(inputCols=["feature1", "feature2", "categoryVec"], outputCol="features")
+     ```
+
+5. **Step 5: Select the Model Algorithm**
+   - Choose a machine learning model for your task (classification, regression, etc.). For example, a **Logistic Regression** model for classification:
+     ```python
+     lr = LogisticRegression(featuresCol="features", labelCol="label")
+     ```
+
+6. **Step 6: Build the Pipeline**
+   - A **Pipeline** is a way to chain all the transformations and model training steps together. It ensures that every step is applied in the right sequence. The pipeline consists of transformers and estimators.
+     ```python
+     pipeline = Pipeline(stages=[indexer, encoder, assembler, lr])
+     ```
+
+7. **Step 7: Split the Data into Training and Testing Sets**
+   - Split the data into training and testing datasets (commonly 80%-20% split).
+     ```python
+     train_data, test_data = data.randomSplit([0.8, 0.2], seed=1234)
+     ```
+
+8. **Step 8: Train the Model**
+   - Fit the pipeline to the training data. This will run all the transformations (indexing, encoding, assembling) and train the model.
+     ```python
+     model = pipeline.fit(train_data)
+     ```
+
+9. **Step 9: Make Predictions**
+   - Use the trained model to make predictions on the test data.
+     ```python
+     predictions = model.transform(test_data)
+     ```
+
+10. **Step 10: Evaluate the Model**
+    - Use evaluation metrics such as **accuracy**, **precision**, **recall**, or **F1 score** for classification tasks. For example, using **BinaryClassificationEvaluator** for binary classification:
+      ```python
+      evaluator = BinaryClassificationEvaluator(labelCol="label", rawPredictionCol="prediction")
+      accuracy = evaluator.evaluate(predictions)
+      print("Accuracy:", accuracy)
+      ```
+
+11. **Step 11: Model Tuning (Optional)**
+    - For improving the model’s performance, hyperparameter tuning can be done using techniques such as **Grid Search** or **Random Search**.
+    - Example: Using **ParamGridBuilder** for hyperparameter tuning:
+      ```python
+      from pyspark.ml.tuning import ParamGridBuilder, CrossValidator
+      paramGrid = (ParamGridBuilder()
+                   .addGrid(lr.regParam, [0.1, 0.01])
+                   .addGrid(lr.maxIter, [10, 20])
+                   .build())
+      crossval = CrossValidator(estimator=pipeline, estimatorParamMaps=paramGrid, evaluator=evaluator, numFolds=3)
+      cvModel = crossval.fit(train_data)
+      ```
+
+12. **Step 12: Save and Load the Model (Optional)**
+    - After training, you may want to save the model for future use.
+      ```python
+      model.save("path_to_save_model")
+      # To load the model
+      loaded_model = PipelineModel.load("path_to_save_model")
+      ```
+
+#### **Diagram of Spark ML Pipeline Workflow:**
+
+```
++------------------+      +---------------------+     +---------------------+     +------------------+     +--------------------------+
+|   Data Loading   | ---> |   Data Preprocessing| --> | Feature Engineering | --> | Model Training   | --> | Predictions & Evaluation |
++------------------+      +---------------------+     +---------------------+     +------------------+     +--------------------------+
+        |
+    Dataset loaded
+        |
+        +------> Data Cleaning (NaN Handling, Transformation)
+        |
++------------------------------------------------------------------------+ 
+| Feature Transformation (Indexer, OneHotEncoder, VectorAssembler)       |
++------------------------------------------------------------------------+
+        |
++---------------------------------------------------------------------------+ 
+|   Model Selection      | (Logistic Regression, SVM, Random Forest, etc.)  |
++---------------------------------------------------------------------------+ 
+        |
++------------------------+
+| Pipeline Construction  |
+| (Chaining Transformers |  
+|   and Estimators)      |
++------------------------+
+        |
++------------------------+
+|  Model Training & Fit  |
++------------------------+
+        |
++------------------------+
+|   Model Evaluation     | (Accuracy, Precision, Recall)
++------------------------+
+```
+
+
+#### **Summary:**
+Building a Spark ML pipeline is an iterative process of preparing data, selecting a model, training it, and evaluating its performance. The pipeline helps ensure that the same steps are applied to both training and testing data in a consistent manner. It improves scalability, reproducibility, and efficiency in big data machine learning applications.
+
+#### **Key components:**
+- **Data Preprocessing** (cleaning, transformation, indexing, encoding)
+- **Feature Engineering** (VectorAssembler, scaling)
+- **Model Selection** (Logistic Regression, Random Forest, etc.)
+- **Model Training** (fitting the model)
+- **Model Evaluation** (accuracy, precision, etc.)
+- **Hyperparameter Tuning** (optional)
+
+---
+
+### Q5. Explain in detail about Hyper parameter training and AutoML in pyspark.
+#### **Hyperparameter Training and AutoML in PySpark**
+
+Hyperparameter tuning and AutoML are crucial aspects of the machine learning workflow that aim to improve the performance of a model by optimizing its hyperparameters and automating the process of model selection, hyperparameter tuning, and evaluation.
+
+In **PySpark**, hyperparameter tuning is typically done using **Grid Search** or **Random Search**, while **AutoML** is a broader concept that automates various stages of the machine learning pipeline.
+
+#### **1. Hyperparameter Training (Tuning) in PySpark**
+
+##### **What are Hyperparameters?**
+- **Hyperparameters** are parameters that are set before the model training process begins. These are external to the model and are typically set manually.
+- Examples of hyperparameters include:
+  - **Learning rate** (for gradient-based models)
+  - **Regularization parameter** (for logistic regression)
+  - **Number of trees** (for random forest models)
+  - **Max depth** (for decision trees)
+  - **Batch size** (for neural networks)
+
+##### **Importance of Hyperparameter Tuning:**
+- **Hyperparameter tuning** can significantly improve the model’s performance. Instead of relying on default values, finding the optimal hyperparameters helps to:
+  - Prevent **underfitting** or **overfitting**.
+  - Improve the **accuracy** of the model.
+  - Ensure the model generalizes well to unseen data.
+
+##### **Methods of Hyperparameter Tuning:**
+1. **Grid Search:**
+   - A **Grid Search** explores a manually specified subset of the hyperparameter space. It performs an exhaustive search over all combinations of a given set of hyperparameters.
+   - **Example**: If you are tuning a Random Forest, you can define a grid for the number of trees and max depth:
+     ```python
+     from pyspark.ml.tuning import ParamGridBuilder
+     from pyspark.ml.evaluation import RegressionEvaluator
+     from pyspark.ml.tuning import CrossValidator
+
+     paramGrid = (ParamGridBuilder()
+                  .addGrid(rf.numTrees, [10, 20, 30])
+                  .addGrid(rf.maxDepth, [5, 10, 15])
+                  .build())
+     ```
+
+2. **Random Search:**
+   - Unlike Grid Search, **Random Search** samples the hyperparameter space randomly. This can be more efficient when the number of possible hyperparameter combinations is very large.
+
+3. **Cross-Validation:**
+   - **Cross-validation** is a technique used in conjunction with hyperparameter tuning to evaluate the model's performance. It divides the dataset into multiple subsets (folds) and trains the model on different subsets while evaluating on the others.
+   - It helps prevent overfitting and provides a more accurate evaluation of the model's performance.
+
+##### **Example: Hyperparameter Tuning with Grid Search and Cross-Validation**
+```python
+from pyspark.ml.classification import RandomForestClassifier
+from pyspark.ml.evaluation import BinaryClassificationEvaluator
+from pyspark.ml.tuning import CrossValidator, ParamGridBuilder
+
+# Initialize RandomForest Classifier
+rf = RandomForestClassifier(labelCol="label", featuresCol="features")
+
+# Create the parameter grid
+paramGrid = (ParamGridBuilder()
+             .addGrid(rf.numTrees, [10, 20])
+             .addGrid(rf.maxDepth, [5, 10])
+             .build())
+
+# CrossValidator for hyperparameter tuning
+evaluator = BinaryClassificationEvaluator(labelCol="label")
+crossval = CrossValidator(estimator=rf,
+                          estimatorParamMaps=paramGrid,
+                          evaluator=evaluator,
+                          numFolds=3)
+
+# Fit the model using cross-validation
+cvModel = crossval.fit(trainingData)
+```
+
+#### **2. AutoML in PySpark**
+
+##### **What is AutoML?**
+- **AutoML (Automated Machine Learning)** refers to the automation of the end-to-end process of applying machine learning to real-world problems.
+- It encompasses:
+  - **Data preprocessing** (cleaning, normalization, transformation).
+  - **Model selection** (choosing the appropriate algorithm).
+  - **Hyperparameter tuning** (finding optimal hyperparameters).
+  - **Model evaluation** (performance metrics like accuracy, precision, etc.).
+  - **Model deployment** (deploying the best model for production).
+
+##### **Why is AutoML Important?**
+- It simplifies the process of building machine learning models, making it more accessible for non-experts.
+- It helps save time by automating repetitive tasks such as model selection and hyperparameter tuning.
+- It ensures that machine learning models are optimized and performant.
+
+##### **AutoML in PySpark:**
+- PySpark does not have a dedicated AutoML library, but various tools and techniques can be combined to achieve similar functionality:
+  - **Spark MLlib** provides basic machine learning algorithms and tools.
+  - **MLflow** is a great tool for tracking experiments and automating model workflows.
+  - **H2O.ai** and **TPOT** are third-party libraries for AutoML that can be integrated with PySpark for advanced AutoML capabilities.
+
+##### **AutoML with H2O.ai:**
+- **H2O.ai** offers a framework that supports AutoML. It automates the process of:
+  - Model selection (e.g., decision trees, random forests, gradient boosting).
+  - Hyperparameter tuning.
+  - Model evaluation and validation.
+  
+- Example of H2O AutoML:
+  ```python
+  import h2o
+  from h2o.automl import H2OAutoML
+
+  # Start H2O cluster
+  h2o.init()
+
+  # Load the dataset
+  data = h2o.import_file("data.csv")
+
+  # Split the data into training and test sets
+  train, test = data.split_frame(ratios=[.8])
+
+  # Initialize AutoML and run it
+  aml = H2OAutoML(max_models=20, seed=1)
+  aml.train(y="target", training_frame=train)
+
+  # View the leaderboard of models
+  lb = aml.leaderboard
+  print(lb)
+  ```
+
+##### **AutoML with MLflow:**
+- **MLflow** provides an end-to-end platform for managing the machine learning lifecycle, including tracking experiments, running hyperparameter tuning, and deploying models.
+- MLflow can be used to automate hyperparameter tuning, model tracking, and even deployment.
+  ```python
+  import mlflow
+  from mlflow import spark
+
+  # Track an experiment with MLflow
+  with mlflow.start_run():
+      mlflow.log_param("numTrees", 10)
+      mlflow.log_param("maxDepth", 5)
+      # Train the model here and log metrics
+      mlflow.log_metric("accuracy", accuracy)
+  ```
+
+#### **Steps in AutoML:**
+1. **Data Loading**: Automatically load and preprocess the data (e.g., handling missing values, feature engineering).
+2. **Model Selection**: Automatically choose the best model based on the data type and problem (e.g., regression, classification).
+3. **Hyperparameter Tuning**: Automatically tune the hyperparameters of the selected model.
+4. **Model Evaluation**: Evaluate models using cross-validation and relevant metrics (e.g., accuracy, precision).
+5. **Model Deployment**: Automatically deploy the best model for real-time predictions or batch predictions.
+
+#### **Summary:**
+
+- **Hyperparameter Tuning** in PySpark helps improve model performance by adjusting parameters like `learning rate`, `num trees`, etc., and can be achieved using **Grid Search** and **Random Search** combined with **Cross-Validation**.
+- **AutoML** aims to automate the entire machine learning workflow, including data preprocessing, model selection, hyperparameter tuning, and deployment, saving time and effort.
+- **PySpark**, combined with tools like **MLlib**, **MLflow**, and **H2O.ai**, provides a framework for automating machine learning tasks. **MLflow** is specifically useful for experiment tracking, while **H2O.ai** can be used for advanced AutoML in large-scale data processing scenarios.
+
+This makes the machine learning process more efficient, accessible, and less error-prone, even for users with limited expertise in machine learning.
 
 
