@@ -135,6 +135,3 @@ An extension of **Faster R-CNN** for **instance segmentation**.
 | Mask R-CNN | Detection + Segmentation, but heavy |
 | Metrics/Losses | IoU, Dice, CE, Focal – depend on context and dataset |
 
----
-
-Let me know if you'd like diagrams for U-Net or Mask R-CNN architecture — I can generate clean labeled visual explanations for revision. Want a flashcard version of this as well?
