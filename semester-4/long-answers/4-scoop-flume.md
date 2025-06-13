@@ -1,8 +1,6 @@
 
 # **IV Data Ingestion Tools (Sqoop, Flume)**
 
----
-
 #### **Q1. Explain in detail about data ingestion tools available in big data and how the data’s are ingested into the model.**
 
 **Data Ingestion** is the process of collecting and loading data from multiple sources into Big Data systems.
