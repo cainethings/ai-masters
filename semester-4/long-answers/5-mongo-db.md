@@ -1,7 +1,5 @@
 # **V MongoDB (NoSQL Database)**
 
----
-
 #### **Q1. Explain in detail about the Ecosystem of MongoDB with appropriate diagrams and explore collections and documents in MongoDB.**
 
 **MongoDB Ecosystem Components:**
