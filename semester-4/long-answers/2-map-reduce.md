@@ -84,5 +84,3 @@ public class WordCount {
 * **Reduce** → Aggregate word counts
 * **Used in** → Word count, log analysis, sorting, indexing
 
-Let me know if you'd like a diagram or visual flow to go with this!
-
