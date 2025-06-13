@@ -1,7 +1,5 @@
 # **III. Hive (Data Warehousing)**
 
----
-
 #### **Q1. What are the different types of joins in Hive? Explain with appropriate example for each.**
 
 Hive supports four main types of joins:
