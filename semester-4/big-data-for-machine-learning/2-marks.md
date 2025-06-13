@@ -5,10 +5,17 @@
 >A system that stores data across multiple machines, providing fault tolerance and scalability.
 
 **Q: List out the file formats supported by HDFS.**
->Text, Sequence, Avro, Parquet, ORC, and RCFile.
+> - Text
+> - Sequence
+> - Avro
+> - Parquet
+> - ORC
+> - RCFile
 
 **Q: What are the significant features in Hadoop 2.0?**
->YARN for resource management, high availability, and support for non-MapReduce frameworks.
+> - YARN for resource management
+> - high availability
+> - support for non-MapReduce frameworks
 
 **Q: How name-node failure is handled in Hadoop ecosystem?**
 >By using a standby NameNode for high availability and automatic failover.
@@ -67,7 +74,10 @@
 >Execution is delayed until the result is needed, improving performance.
 
 **Q: What are the different data types supported by Spark MLlib?**
->Vectors, LabeledPoint, Matrices, and basic types like Double and Int.
+> - Vectors
+> - LabeledPoint
+> - Matrices
+> - basic types like Double and Int
 
 **Q: How do you set deploy mode in Pyspark?**
 >Using `--deploy-mode` in `spark-submit` (e.g., `client` or `cluster`).
@@ -77,10 +87,18 @@
 ### **7. General Big Data Concepts**
 
 **Q: List out any five real time applications of big data.**
->Fraud detection, Recommendation engines, Healthcare analytics, Customer insights, and Traffic management.
+> - Fraud detection
+> - Recommendation engines
+> - Healthcare analytics
+> - Customer insights
+> - Traffic management
 
 **Q: What are the 5 V’s involved in big data ecosystem?**
->Volume, Velocity, Variety, Veracity, and Value.
+> - Volume
+> - Velocity
+> - Variety
+> - Veracity
+> - Value
 
 **Q: Define AutoML.**
 >Automated Machine Learning that simplifies model building and selection without manual tuning.
